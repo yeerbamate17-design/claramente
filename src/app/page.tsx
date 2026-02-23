@@ -1,101 +1,132 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Droplets, Timer, Award } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import ProductCard from "@/components/ProductCard";
 
-export default function Home() {
+export default async function HomePage() {
+  const supabase = await createClient();
+  const { data: featuredProducts } = await supabase
+    .from("products")
+    .select("*")
+    .eq("is_active", true)
+    .limit(4)
+    .order("created_at", { ascending: false });
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <>
+      {/* Hero */}
+      <section className="bg-gradient-to-br from-brand-blue to-blue-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
+          <div className="max-w-2xl">
+            <h1 className="font-heading text-4xl md:text-6xl font-bold leading-tight">
+              Clara de Huevo
+              <br />
+              <span className="text-brand-yellow">Pasteurizada</span>
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-blue-100">
+              Nutrición inteligente. Lista para vos. Proteína pura en Tetra Brik,
+              lista para usar.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/tienda"
+                className="inline-flex items-center justify-center bg-brand-yellow text-gray-900 font-bold py-3.5 px-8 rounded-xl hover:bg-brand-yellow-dark transition-colors text-lg"
+              >
+                Ver productos
+              </Link>
+              <Link
+                href="/faq"
+                className="inline-flex items-center justify-center bg-white/10 text-white font-semibold py-3.5 px-8 rounded-xl hover:bg-white/20 transition-colors text-lg border border-white/20"
+              >
+                Preguntas frecuentes
+              </Link>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="font-heading text-3xl font-bold text-center text-gray-900 mb-12">
+            ¿Por qué ClaraMente?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Droplets,
+                title: "Proteína pura",
+                desc: "Clara de huevo pasteurizada, lista para consumir. Sin cáscara, sin desperdicio.",
+              },
+              {
+                icon: Timer,
+                title: "Lista al instante",
+                desc: "Abrí y usá. Ideal para batidos, tortillas, recetas fitness y más.",
+              },
+              {
+                icon: Award,
+                title: "Calidad garantizada",
+                desc: "Producto pasteurizado con cadena de frío. Seguro y de máxima calidad.",
+              },
+            ].map((benefit) => (
+              <div
+                key={benefit.title}
+                className="text-center p-8 rounded-2xl bg-gray-50"
+              >
+                <div className="inline-flex items-center justify-center w-14 h-14 bg-brand-blue/10 rounded-xl mb-4">
+                  <benefit.icon className="h-7 w-7 text-brand-blue" />
+                </div>
+                <h3 className="font-heading font-bold text-lg mb-2">
+                  {benefit.title}
+                </h3>
+                <p className="text-gray-600">{benefit.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      {featuredProducts && featuredProducts.length > 0 && (
+        <section className="py-16 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="font-heading text-3xl font-bold text-center text-gray-900 mb-12">
+              Productos destacados
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+            <div className="text-center mt-10">
+              <Link
+                href="/tienda"
+                className="inline-flex items-center justify-center bg-brand-blue text-white font-semibold py-3 px-8 rounded-xl hover:bg-brand-blue-dark transition-colors"
+              >
+                Ver todo el catálogo
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-3xl mx-auto px-4 text-center">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            ¿Listo para mejorar tu nutrición?
+          </h2>
+          <p className="text-gray-600 text-lg mb-8">
+            Envío gratis en pedidos de más de 12 unidades.
+          </p>
+          <Link
+            href="/tienda"
+            className="inline-flex items-center justify-center bg-brand-blue text-white font-bold py-4 px-10 rounded-xl hover:bg-brand-blue-dark transition-colors text-lg"
+          >
+            Comprar ahora
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }
