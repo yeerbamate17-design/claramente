@@ -1,6 +1,7 @@
 {
   "name": "claramente",
   "version": "0.1.0",
+  "description": "Claramente - tienda online",
   "private": true,
   "scripts": {
     "dev": "next dev",
