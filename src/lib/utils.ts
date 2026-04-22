@@ -13,8 +13,9 @@ export function buildWhatsAppUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-export function calculateShipping(totalUnits: number, deliveryType: string): number {
+export function calculateShipping(totalUnits: number, deliveryType: string, postalCode?: string): number {
   if (deliveryType === "retiro") return 0;
+  if (postalCode === "6600") return 0;
   return totalUnits > FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
 }
 

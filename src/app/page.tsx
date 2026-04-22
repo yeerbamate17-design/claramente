@@ -24,7 +24,7 @@ export default async function HomePage() {
               <span className="text-brand-yellow">Pasteurizada</span>
             </h1>
             <p className="mt-6 text-lg md:text-xl text-blue-100">
-              Nutrición inteligente. Lista para vos. Proteína pura en Tetra Brik,
+              Nutrición inteligente. Lista para vos. Proteína pura en botella de vidrio,
               lista para usar.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-4">

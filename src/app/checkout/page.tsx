@@ -30,7 +30,7 @@ export default function CheckoutPage() {
   const [postalChecking, setPostalChecking] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
-  const shipping = calculateShipping(totalUnits, form.delivery_type);
+  const shipping = calculateShipping(totalUnits, form.delivery_type, form.postal_code);
   const total = subtotal + shipping;
 
   async function checkPostalCode(code: string) {

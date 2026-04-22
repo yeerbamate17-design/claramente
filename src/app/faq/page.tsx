@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "¿Cuánto dura la clara de huevo cerrada?",
     answer:
-      "Cerrada y refrigerada entre 0°C y 4°C, tiene una vida útil de 30 a 45 días desde la fecha de elaboración. Revisá siempre la fecha de vencimiento en el envase.",
+      "Cerrada y refrigerada entre 0°C y 4°C, tiene una vida útil de 15 días desde la fecha de elaboración. Revisá siempre la fecha de vencimiento en el envase.",
   },
   {
     question: "¿Cuánto dura una vez abierta?",
@@ -29,7 +29,7 @@ const faqs = [
   {
     question: "¿Tienen precios mayoristas?",
     answer:
-      "Sí, visitá la sección Mayorista en nuestra tienda. Para consultas especiales o volúmenes grandes, contactanos por WhatsApp.",
+      "Sí, manejamos precios mayoristas. Contactanos directamente por WhatsApp o Instagram para consultar disponibilidad, precios y condiciones.",
   },
   {
     question: "¿Es necesario crear una cuenta?",

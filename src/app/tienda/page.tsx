@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import ProductCard from "@/components/ProductCard";
 import CategoryTabs from "@/components/CategoryTabs";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -36,6 +37,29 @@ export default async function TiendaPage({
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
+        </div>
+      ) : cat === "mayorista" ? (
+        <div className="text-center py-20">
+          <p className="text-xl font-semibold text-gray-800 mb-2">¿Querés comprar al por mayor?</p>
+          <p className="text-gray-500 mb-6">Consultanos directamente para precios y condiciones mayoristas.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-green-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-green-600 transition-colors"
+            >
+              Contactar por WhatsApp
+            </a>
+            <a
+              href="https://instagram.com/claramente.arg"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-pink-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-pink-600 transition-colors"
+            >
+              Contactar por Instagram
+            </a>
+          </div>
         </div>
       ) : (
         <div className="text-center py-20 text-gray-500">

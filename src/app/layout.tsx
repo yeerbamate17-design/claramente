@@ -25,6 +25,10 @@ export const metadata: Metadata = {
   },
   description:
     "Nutrición inteligente. Clara de huevo pasteurizada lista para vos. Comprá online con envío a domicilio.",
+  icons: {
+    icon: "/logo-clara-mente.png",
+    apple: "/logo-clara-mente.png",
+  },
   openGraph: {
     title: "ClaraMente - Clara de Huevo Pasteurizada",
     description: "Nutrición inteligente. Lista para vos.",
