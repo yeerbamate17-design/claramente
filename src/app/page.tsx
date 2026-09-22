@@ -46,7 +46,7 @@ export default async function HomePage() {
       </section>
 
       {/* Benefits */}
-      <section className="py-16 md:py-24">
+      <section id="beneficios" className="py-16 md:py-24 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-heading text-3xl font-bold text-center text-gray-900 mb-12">
             ¿Por qué ClaraMente?

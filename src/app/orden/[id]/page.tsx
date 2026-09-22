@@ -1,7 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { formatCurrency, truncateId, buildWhatsAppUrl } from "@/lib/utils";
-import { CBU, ALIAS, TITULAR, BANCO } from "@/lib/constants";
+import { CBU, ALIAS, TITULAR, BANCO, QR_IMAGE_URL } from "@/lib/constants";
 import OrderStatusBadge from "@/components/OrderStatusBadge";
 import UploadProofForm from "./UploadProofForm";
 import { MessageCircle } from "lucide-react";
@@ -46,12 +47,33 @@ export default async function OrdenPage({ params }: Props) {
         </div>
       </div>
 
-      {/* Bank details */}
+      {/* Payment options */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
         <h2 className="font-heading font-bold text-lg text-blue-900 mb-4">
-          Datos para transferencia
+          Pagar con QR o Transferencia
         </h2>
-        <div className="space-y-3 text-sm">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
+          <div className="flex flex-col items-center justify-center bg-white rounded-xl border border-blue-100 p-4">
+            {QR_IMAGE_URL ? (
+              <Image
+                src={QR_IMAGE_URL}
+                alt="Código QR de pago ClaraMente"
+                width={200}
+                height={200}
+                className="rounded-lg"
+              />
+            ) : (
+              <div className="w-full aspect-square max-w-[200px] flex items-center justify-center bg-gray-100 rounded-lg text-gray-400 text-sm text-center p-4">
+                QR de pago próximamente
+              </div>
+            )}
+            <p className="text-xs text-blue-700 font-medium mt-2 text-center">
+              Escaneá para pagar
+            </p>
+          </div>
+
+          <div className="space-y-3 text-sm">
           {CBU && (
             <div className="flex justify-between items-center">
               <span className="text-blue-700 font-medium">CBU</span>
@@ -82,7 +104,13 @@ export default async function OrdenPage({ params }: Props) {
               {formatCurrency(order.total_amount)}
             </span>
           </div>
+          </div>
         </div>
+
+        <p className="text-sm text-blue-800 bg-white border border-blue-100 rounded-lg p-3">
+          Escaneá el QR o transferí al Alias, y adjuntá el comprobante de pago
+          para procesar tu envío.
+        </p>
       </div>
 
       {/* Order details */}

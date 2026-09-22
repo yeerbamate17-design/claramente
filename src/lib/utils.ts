@@ -1,4 +1,13 @@
-import { WHATSAPP_NUMBER, FREE_SHIPPING_THRESHOLD, SHIPPING_COST } from "./constants";
+import {
+  WHATSAPP_NUMBER,
+  FREE_SHIPPING_THRESHOLD,
+  SHIPPING_COST,
+  BOTTLE_ML,
+  BOTTLE_PROTEIN_G,
+  BOTTLE_EGG_WHITES_EQUIVALENT,
+  PACK_UNITS,
+} from "./constants";
+import type { ProductCategory } from "./types";
 
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("es-AR", {
@@ -45,4 +54,44 @@ export function getStatusColor(status: string): string {
 
 export function truncateId(id: string): string {
   return id.slice(0, 8).toUpperCase();
+}
+
+export function getContentInfo(category: ProductCategory): {
+  volumeLabel: string;
+  equivalenceLabel: string;
+  proteinLabel: string;
+} {
+  const units = category === "pack" ? PACK_UNITS : 1;
+  const totalMl = BOTTLE_ML * units;
+  const totalProtein = BOTTLE_PROTEIN_G * units;
+
+  return {
+    volumeLabel:
+      units === 1
+        ? `Botella de ${BOTTLE_ML} ml`
+        : `Pack x${units} botellas de ${BOTTLE_ML} ml (${totalMl / 1000} L en total)`,
+    equivalenceLabel: `Contenido: ${totalMl} ml (~${
+      units === 1
+        ? `${BOTTLE_EGG_WHITES_EQUIVALENT} claras de huevo aprox.`
+        : `${BOTTLE_EGG_WHITES_EQUIVALENT} claras de huevo aprox. por botella`
+    })`,
+    proteinLabel:
+      units === 1
+        ? `Aporte: ${totalProtein}g de proteína total por botella`
+        : `Aporte: ${totalProtein}g de proteína total en el pack (${BOTTLE_PROTEIN_G}g por botella)`,
+  };
+}
+
+export function getPackSavings(
+  individualPrice: number,
+  packPrice: number,
+  packUnits: number = PACK_UNITS
+): { savings: number; unitPrice: number } | null {
+  if (!individualPrice || !packPrice) return null;
+  const savings = individualPrice * packUnits - packPrice;
+  if (savings <= 0) return null;
+  return {
+    savings,
+    unitPrice: Math.round(packPrice / packUnits),
+  };
 }

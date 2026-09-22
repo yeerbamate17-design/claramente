@@ -14,6 +14,8 @@ const config: Config = {
           "blue-dark": "#0080B8",
           yellow: "#FFD700",
           "yellow-dark": "#E6C200",
+          navy: "#0B1E3F",
+          "navy-dark": "#071530",
         },
       },
       fontFamily: {

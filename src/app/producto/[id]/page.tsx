@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import type { Metadata } from "next";
 import type { Product } from "@/lib/types";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getContentInfo, getPackSavings } from "@/lib/utils";
 import AddToCartButton from "./AddToCartButton";
 
 interface Props {
@@ -42,6 +42,22 @@ export default async function ProductoPage({ params }: Props) {
   if (!product) notFound();
 
   const typedProduct = product as Product;
+  const content = getContentInfo(typedProduct.category);
+
+  let savings: { savings: number; unitPrice: number } | null = null;
+  if (typedProduct.category === "pack") {
+    const { data: individualProduct } = await supabase
+      .from("products")
+      .select("price")
+      .eq("is_active", true)
+      .eq("category", "individual")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+    if (individualProduct?.price) {
+      savings = getPackSavings(individualProduct.price, typedProduct.price);
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
@@ -72,10 +88,24 @@ export default async function ProductoPage({ params }: Props) {
           <h1 className="font-heading text-3xl md:text-4xl font-bold text-gray-900 mt-2">
             {typedProduct.name}
           </h1>
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide mt-1">
+            {content.volumeLabel}
+          </p>
 
           <p className="text-brand-blue font-bold text-3xl mt-4">
             {formatCurrency(typedProduct.price)}
           </p>
+
+          {savings && (
+            <p className="text-green-600 text-sm font-semibold mt-1">
+              Ahorrás {formatCurrency(savings.savings)} · Precio por unidad en pack: {formatCurrency(savings.unitPrice)}
+            </p>
+          )}
+
+          <div className="mt-3 bg-gray-50 border border-gray-100 rounded-xl p-4 text-sm text-gray-700 space-y-1">
+            <p>{content.equivalenceLabel}</p>
+            <p>{content.proteinLabel}</p>
+          </div>
 
           {typedProduct.description && (
             <p className="text-gray-600 mt-6 leading-relaxed">

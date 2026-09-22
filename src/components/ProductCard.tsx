@@ -4,13 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, getContentInfo, getPackSavings } from "@/lib/utils";
 import type { Product } from "@/lib/types";
 import toast from "react-hot-toast";
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({
+  product,
+  referenceIndividualPrice,
+}: {
+  product: Product;
+  referenceIndividualPrice?: number;
+}) {
   const addItem = useCartStore((s) => s.addItem);
   const outOfStock = product.stock <= 0;
+  const content = getContentInfo(product.category);
+  const savings =
+    product.category === "pack" && referenceIndividualPrice
+      ? getPackSavings(referenceIndividualPrice, product.price)
+      : null;
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col">
@@ -45,9 +56,24 @@ export default function ProductCard({ product }: { product: Product }) {
           {product.name}
         </Link>
 
+        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mt-1">
+          {content.volumeLabel}
+        </p>
+
         <p className="text-brand-blue font-bold text-xl mt-2">
           {formatCurrency(product.price)}
         </p>
+
+        {savings && (
+          <p className="text-green-600 text-xs font-semibold mt-1">
+            Ahorrás {formatCurrency(savings.savings)} · {formatCurrency(savings.unitPrice)} por unidad
+          </p>
+        )}
+
+        <div className="mt-2 text-xs text-gray-500 leading-snug space-y-0.5">
+          <p>{content.equivalenceLabel}</p>
+          <p>{content.proteinLabel}</p>
+        </div>
 
         <div className="mt-auto pt-4">
           <button
